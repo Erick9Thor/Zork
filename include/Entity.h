@@ -37,6 +37,7 @@ class Entity
 		void Remove(Entity* entity);
 
 		virtual void Inspect();
+		int Show(list<Entity*>& entities, EntityType type);
 
 		virtual void SeeDescription();
 

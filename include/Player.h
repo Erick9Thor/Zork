@@ -2,6 +2,8 @@
 #define __Player__
 
 #include "Creature.h"
+#include "Npc.h"
+#include "Exit.h"
 
 class Player :
     public Creature
@@ -22,6 +24,8 @@ class Player :
 		void Unequip(const string& str);
 		void Unlock(const string& str);
 		void Loot(const string& str);
+
+		void DescribeCurrentRoom();
 };
 
 

@@ -40,3 +40,13 @@ void Player::Unlock(const string& str)
 void Player::Loot(const string& str)
 {
 }
+
+void Player::DescribeCurrentRoom()
+{
+	cout << "You are now in the " << location->GetName() << "." << endl;
+	GetLocation()->Inspect();
+	cout << "In this room you will find: " << endl;
+	if (Show(GetLocation()->contains, EntityType::ITEM) == 0)
+		cout << "No items." << endl;
+	Show(GetLocation()->contains, EntityType::NPC);
+}

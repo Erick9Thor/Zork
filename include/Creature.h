@@ -4,6 +4,7 @@
 
 #include <string>
 #include "Entity.h"
+#include "Room.h"
 
 using namespace std;
 

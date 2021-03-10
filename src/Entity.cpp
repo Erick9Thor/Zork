@@ -53,6 +53,22 @@ void Entity::Inspect()
 	cout << description << endl;
 }
 
+int Entity::Show(list<Entity*>& entities, EntityType type)
+{
+	int count = 0;
+
+	for (Entity* e : entities) {
+
+		if (type == e->GetType()) {
+			string itemName = e->GetName();
+			cout << "- " << itemName << endl;
+			count++;
+		}
+	}
+
+	return count;
+}
+
 void Entity::SeeDescription()
 {
 	cout << description << endl;
