@@ -1,7 +1,6 @@
 #ifndef __Item__
 #define __Item__
 
-#pragma once
 #include "Entity.h"
 
 enum ItemType { COMMON, KEY, WEAPON };

@@ -1,7 +1,7 @@
 #ifndef __Globals__
 #define __Globals__
 
-enum class DirectionEnum
+enum class Direction
 {
 	NORTH,
 	EAST,

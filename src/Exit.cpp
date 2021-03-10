@@ -1,6 +1,6 @@
 #include "../include/Exit.h"
 
-DirectionEnum Exit::GetDirection() const
+Direction Exit::GetDirection() const
 {
     return direction;
 }

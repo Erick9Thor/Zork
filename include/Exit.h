@@ -11,14 +11,14 @@ class Exit :
 {
 
 public:
-	Exit(string name, string description, DirectionEnum direction, Room* source, Room* destination) : Entity(EntityType::EXIT, name, description) {
+	Exit(string name, string description, Direction direction, Room* source, Room* destination) : Entity(EntityType::EXIT, name, description) {
 		this->direction = direction;
 		this->source = source;
 		this->destination = destination;
 		this->locked = false;
 	}
 
-	DirectionEnum GetDirection() const;
+	Direction GetDirection() const;
 	Room* GetSource() const;
 	Room* GetDestination() const;
 
@@ -26,7 +26,7 @@ public:
 	void SetLocked(bool locked);
 
 private:
-	DirectionEnum direction;
+	Direction direction;
 	Room* source;
 	Room* destination;
 	bool locked;
