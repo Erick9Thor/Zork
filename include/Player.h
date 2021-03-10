@@ -1,6 +1,7 @@
-#pragma once
-#include "Creature.h"
+#ifndef __Player__
+#define __Player__
 
+#include "Creature.h"
 
 class Player :
     public Creature
@@ -23,3 +24,5 @@ class Player :
 		void Loot(const string& str);
 };
 
+
+#endif // !Player
