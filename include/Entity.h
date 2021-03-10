@@ -5,6 +5,7 @@ using namespace std;
 
 #include <string>
 #include <list>
+#include <iostream>
 
 enum class EntityType
 {
@@ -22,17 +23,25 @@ class Entity
 		explicit Entity(EntityType type, string name, string description);
 		virtual ~Entity();
 
-
-	public:
-		EntityType type;
-		std::string name;
-		std::string description;
+		string GetName() const;
+		string GetDescription() const;
+		EntityType GetType() const;
+		Entity* GetParent() const;
+		void SetParent(Entity* parent);
 
 		Entity* parent;
 		list<Entity*> contains;
 
-		virtual void Update();
+		void Add(Entity* entity);
+		void Remove(Entity* entity);
 
+		virtual void SeeDescription();
+
+
+	private:
+		EntityType type;
+		string name;
+		string description;
 };
 
 #endif //__Entity__
