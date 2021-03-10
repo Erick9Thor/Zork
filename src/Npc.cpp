@@ -5,6 +5,24 @@ bool Npc::IsDead()
     return life == 0;
 }
 
+void Npc::Inspect()
+{
+	Entity::Inspect();
+	cout << name << endl;
+	
+}
+
+string Npc::GetDialogue()
+{
+	return dialogue;
+}
+
+void Npc::SetDialogue(string& str)
+{
+	this->dialogue = str;
+}
+
+
 void Npc::SetMonsterPosition()
 {
 	int pos = rand() % 4;

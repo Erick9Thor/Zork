@@ -10,7 +10,8 @@ class Npc :
     public Creature
 {
     public:
-        Npc(string name, string description, Room* location) : Creature(EntityType::NPC, name, description, location) {
+        Npc(string name, string description, string dialogue, Room* location) : Creature(EntityType::NPC, name, description, location) {
+            this->dialogue = dialogue;
             this->life = baseNpcLife;
             SetMonsterPosition();
         }
@@ -18,9 +19,15 @@ class Npc :
         void Attack();
         bool IsDead();
 
+        void Inspect();
+
+        string GetDialogue();
+        void SetDialogue(string& str);
+
     private:
         void SetMonsterPosition();
-
+        
+        string dialogue;
         Direction position;
         int life;
 };

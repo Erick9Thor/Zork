@@ -36,10 +36,12 @@ class Entity
 		void Add(Entity* entity);
 		void Remove(Entity* entity);
 
+		virtual void Inspect();
+
 		virtual void SeeDescription();
 
 
-	private:
+	protected:
 		EntityType type;
 		string name;
 		string description;

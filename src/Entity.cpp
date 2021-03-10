@@ -48,6 +48,11 @@ void Entity::Remove(Entity* entity)
 	contains.remove(entity);
 }
 
+void Entity::Inspect()
+{
+	cout << description << endl;
+}
+
 void Entity::SeeDescription()
 {
 	cout << description << endl;
