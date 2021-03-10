@@ -1,13 +1,12 @@
 #include "../include/Entity.h"
 
-Entity::Entity(const char* name, const char* description, Entity* parent = NULL) :
-	name(name), description(description), parent(parent)
-{
-	type = EntityType::ENTITY;
 
-	if (parent != NULL) {
-		parent->contains.push_back(this);
-	}
+Entity::Entity(EntityType type, string name, string description)
+{
+	this->type = type;
+	this->name = name;
+	this->description = description;
+	this->parent = nullptr;
 }
 
 Entity::~Entity()
