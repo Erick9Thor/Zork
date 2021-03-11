@@ -5,6 +5,7 @@
 #include "Npc.h"
 #include "Exit.h"
 #include "Globals.h"
+#include "Item.h"
 
 class Player :
     public Creature
@@ -28,6 +29,9 @@ class Player :
 
 		void DescribeCurrentRoom();
 
+		Item* GetHoldingItem() const;
+		void SetHoldingItem(Item* item);
+
 	private:
 
 		Exit* GetExitFromDirection(const string& str) const;
@@ -35,6 +39,11 @@ class Player :
 
 		template <class T>
 		T* GetEntityFromName(const string& name, const list<Entity*>& entities, const EntityType type) const;
+
+
+		Item* GetItemFromType(ItemType type) const;
+			
+		Item* holdingItem;
 };
 
 

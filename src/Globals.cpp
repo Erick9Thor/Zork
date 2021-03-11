@@ -47,4 +47,23 @@ namespace Globals {
 	{
 		return strToDir(str) != nullptr;
 	}
+
+	vector<string> split(string& str) {
+		vector<string> words;
+		size_t pos = 0;
+		string word;
+
+		if (!str.empty()) {
+			while ((pos = str.find(" ")) != string::npos) {
+				word = str.substr(0, pos);
+				words.push_back(word);
+				str.erase(0, pos + 1);
+			}
+
+			if (!str.empty())
+				words.push_back(str);
+		}
+
+		return words;
+	}
 }

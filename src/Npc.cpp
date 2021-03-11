@@ -1,5 +1,11 @@
 #include "../include/Npc.h"
 
+void Npc::Attack()
+{
+	life--;
+	cout << "You hit the " << GetName() << "! " << "It has " << life << " lives left." << endl;
+}
+
 bool Npc::IsDead()
 {
     return life == 0;

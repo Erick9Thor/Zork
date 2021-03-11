@@ -2,7 +2,6 @@
 
 World::World(string playerName)
 {
-	// LivingRoom
 	Room* wh = new Room("West of House", "This is an open field west of a white house, with a boarded front door.");
 	Room* nh = new Room("North of House", "You are facing the north side of a white house.  There is no door here, and all the windows are barred.");
 	Room* bh = new Room("Behind House", "You are behind the white house.  In one corner of the house there is a small window which is slightly ajar.");
@@ -32,14 +31,43 @@ World::World(string playerName)
 	Item* shield = new Item("shield", "I think this is not and shield, just a peace of wood", ItemType::WEAPON);
 
 	// NPCS
-	class Npc* Hugin = new class Npc("Hugin", "A crow!", "GO ATTIC!!, GO ATTIC!!", kitchen);
+	class Npc* Hugin = new class Npc("Hugin", "A crow!", "GO ATTIC!!, GO ATTIC!!", livingRoom);
 	
-
 	// MONSTER
-	class Npc* Surtur = new class Npc("Surtur", "OMG. The king of the fire giants", "He wants to start the Ragnarock!", attic);
+	class Npc* Surt = new class Npc("Surt", "OMG. The king of the fire giants", "He wants to start the Ragnarock!", attic);
 
 	// PLAYER
 	player = new Player(playerName, "You are the mighty hero of this adventure!", wh);
+
+	// ADD Entries to WH
+
+	wh->Add(exitWhNh);
+	wh->Add(shield);
+
+	// ADD Entries to NH
+
+	nh->Add(exitNhWh);
+	nh->Add(exitNhBh);
+	nh->Add(sword);
+
+	// ADD Entries to BH
+	bh->Add(exitBhKitchen);
+	bh->Add(exitBhNh);
+
+	// ADD Entries to Kitchen
+	kitchen->Add(exitkitchenBh);
+	kitchen->Add(exitKitchenAttic);
+	kitchen->Add(exitKitchenLivingRoom);
+	kitchen->Add(key);
+
+	// ADD Entries to Attic
+	attic->Add(exitAtticKitchen);
+	attic->Add(Surt);
+
+	// AD Entries to Living Room
+	livingRoom->Add(exitBhKitchen);
+	livingRoom->Add(Hugin);
+
 
 	// ADD ENTITIES TO THE WORD
 	entities.push_back(wh);
@@ -66,7 +94,7 @@ World::World(string playerName)
 	entities.push_back(shield);
 
 	entities.push_back(Hugin);
-	entities.push_back(Surtur);
+	entities.push_back(Surt);
 
 	player->DescribeCurrentRoom();
 	gameOver = false;
@@ -76,8 +104,65 @@ string World::ExitDescription(Room* room) {
 	return "Exit to the " + room->GetName() + ".";
 }
 
+void World::ExecuteInput(const vector<string>& words)
+{
+	string actionName = words.at(0);
+	string actionParameter = "";
+	if (words.size() > 1) {
+		actionParameter = words.at(1);
+	}
+
+	if (ACTION_GO == actionName) {
+		player->Go(actionParameter);
+	}
+	else if (ACTION_ATTACK == actionName) {
+		gameOver = player->Attack(actionParameter);
+	}
+	else if (ACTION_TALK == actionName) {
+		player->Talk(actionParameter);
+	}
+	else if (ACTION_HELP == actionName) {
+		ShowHelp();
+	}
+	else
+		cerr << "Invalid action, please try again." << endl;
+}
+
+void World::ShowHelp() const
+{
+	cout << "Action Commands:" << endl;
+	cout << ShowCommand(ACTION_GO) << " move the player to a different room. The parameter must be a direction." << endl;
+	cout << ShowCommand(ACTION_ATTACK) << " attack a monster in the current room. You will need a weapon" << endl;
+	cout << ShowCommand(ACTION_TALK) << " chat with an NPC." << endl;
+	cout << ShowCommand(ACTION_EXIT) << " end the game." << endl;
+}
+
+string World::ShowCommand(string str) const {
+	return "- '" + str + "'";
+}
+
 World::~World()
 {
+	for (Entity* e : entities)
+		delete e;
+	entities.clear();
+	delete player;
+}
+
+void World::ReadInput(const vector<string>& words)
+{
+	switch (words.size()) {
+	case 0:
+		cerr << endl;
+		break;
+	case 1:
+	case 2:
+		ExecuteInput(words);
+		break;
+	default:
+		cerr << "ERROR: Please type 2 words max!" << endl;
+		break;
+	}
 }
 
 void World::SetPlayer(Player* player)

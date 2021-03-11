@@ -5,8 +5,12 @@ void Player::Talk(const string& str)
 {
 	class Npc* npc = GetEntityFromName<class Npc>(str, location->contains, EntityType::NPC);
 
-	cout << npc->GetDialogue() << endl;
-
+	if (npc == nullptr) {
+		cout << "You can't talk to " << str << "." << endl;
+	}
+	else {
+		cout << npc->GetDialogue() << endl;
+	}
 }
 
 template <class T>
@@ -31,12 +35,78 @@ T* Player::GetEntityFromName(const string& name, const list<Entity*>& entities, 
 
 bool Player::Attack(const string& str)
 {
-    return false;
+	bool gameOver = false;
+
+	class Npc* npcToKill = GetEntityFromName<class Npc>(str, location->contains, EntityType::NPC);
+
+	if (npcToKill == nullptr) {
+		cout << "Nothing to attack in this room." << endl;
+	}
+	else {
+
+		Item* weapon = GetItemFromType(ItemType::WEAPON);
+
+		if (weapon == nullptr) {
+			cout << "You don't have a weapon to attack." << endl;
+		}
+		else {
+			if (weapon == GetHoldingItem()) {
+				npcToKill->Attack();
+				if (npcToKill->IsDead()) {
+					cout << "CONGRATULATIONS! YOU BEAT THE GAME!" << endl;
+					gameOver = true;
+				}
+			}
+			else
+				cout << "You need to equip a weapon to attack." << endl;
+		}
+	}
+    
+	return gameOver;
+}
+
+Item* Player::GetHoldingItem() const {
+	return holdingItem;
+}
+
+void Player::SetHoldingItem(Item* item)
+{
+	holdingItem = item;
+}
+
+Item* Player::GetItemFromType(ItemType type) const
+{
+	Item* item = nullptr;
+
+	for (Entity* entity : contains) {
+		if (entity->GetType() == EntityType::ITEM && ((Item*)entity)->GetItemType() == type) {
+			item = (Item*)entity;
+			break;
+		}
+	}
+
+	return item;
 }
 
 void Player::Go(const string& str)
 {
-	Exit* exitDirection = GetExitFromDirection(str);
+	bool moved = false;
+
+	Exit* exit = GetExitFromDirection(str);
+	if (exit != nullptr) {
+		if (exit->IsLocked()) {
+			cout << str << " is locked." << endl;
+		}
+		else {
+			cout << "Walking to " << str << "..." << endl;
+			location = exit->GetDestination();
+			DescribeCurrentRoom();
+			moved = true;
+		}
+	}
+
+	if (!moved)
+		cout << "You can't go to " << str << "." << endl;
 }
 
 Exit* Player::GetExitFromDirection(const string& str) const {
@@ -59,6 +129,7 @@ Exit* Player::GetExitFromDirection(const Direction& dir) const
 
 	return exit;
 }
+
 
 void Player::Inspect(const string& str)
 {

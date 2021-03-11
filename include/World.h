@@ -12,7 +12,17 @@
 
 using namespace std;
 
-class Entity;
+
+
+#define ACTION_GO "go"
+
+#define ACTION_ATTACK "attack"
+
+#define ACTION_TALK "talk" 
+
+#define ACTION_EXIT "exit"
+
+#define ACTION_HELP "help"
 
 class World
 {
@@ -20,12 +30,18 @@ public:
 	World(string playerName);
 	~World();
 
+	void ReadInput(const vector<string>& words);
+
 	void SetPlayer(Player* player);
 	bool IsGameOver() const;
 	string ExitDescription(Room* room);
 
 
 	private:
+		void ExecuteInput(const vector<string>& words);
+
+		void ShowHelp() const;
+		string ShowCommand(string str) const;
 
 		bool gameOver;
 		Player* player;

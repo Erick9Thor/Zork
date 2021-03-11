@@ -17,6 +17,14 @@ int main() {
 
     while (!world.IsGameOver()) {
 
+        getline(cin, userInput);
+
+        // Split string to words
+        vector<string> words = Globals::split(userInput);
+
+        world.ReadInput(words);
+
     }
+
     return 0;
 }

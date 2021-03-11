@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -17,6 +18,8 @@ enum class Direction
 
 namespace Globals
 {
+	vector<string> split(string& str);
+
 	string dirToStr(const Direction& dir);
 	Direction* strToDir(const string& str);
 
