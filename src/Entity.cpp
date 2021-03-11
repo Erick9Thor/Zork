@@ -11,6 +11,11 @@ Entity::Entity(EntityType type, string name, string description)
 
 Entity::~Entity()
 {
+	if (parent != nullptr)
+		delete parent;
+	for (Entity* e : contains)
+		delete e;
+	contains.clear();
 }
 
 string Entity::GetName() const

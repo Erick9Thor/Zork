@@ -11,19 +11,19 @@ World::World(string playerName)
 	Room* livingRoom = new Room("Living Room", "Above the trophy case hangs an elvish sword of great antiquity. And of course the exit if you use the key");
 
 	//EXIT TO OTHER ROOM
-	Exit* exitWhNh = new Exit("path", ExitDescription(nh), Direction::NORTH, wh, nh);
-	Exit* exitNhWh = new Exit("path", ExitDescription(wh), Direction::SOUTH, nh, wh);
+	Exit* exitWhNh = new Exit("forest", ExitDescription(nh), Direction::NORTH, wh, nh);
+	Exit* exitNhWh = new Exit("forest", ExitDescription(wh), Direction::SOUTH, nh, wh);
 
-	Exit* exitNhBh = new Exit("path", ExitDescription(bh), Direction::EAST, nh, bh);
-	Exit* exitBhNh = new Exit("path", ExitDescription(nh), Direction::NORTH, bh, nh);
+	Exit* exitNhBh = new Exit("forest", ExitDescription(bh), Direction::EAST, nh, bh);
+	Exit* exitBhNh = new Exit("forest", ExitDescription(nh), Direction::NORTH, bh, nh);
 
 	Exit* exitBhKitchen = new Exit("window", ExitDescription(kitchen), Direction::WEST, bh, kitchen);
 	Exit* exitkitchenBh = new Exit("path", ExitDescription(bh), Direction::EAST, kitchen, bh);
-	exitkitchenBh->SetLocked(true);
 
 	Exit* exitLivingRoomKitchen = new Exit("door", ExitDescription(kitchen), Direction::EAST, livingRoom, kitchen);
 	Exit* exitKitchenLivingRoom = new Exit("door", ExitDescription(livingRoom), Direction::WEST, kitchen, livingRoom);
 	Exit* exitKitchenAttic = new Exit("stairs", ExitDescription(attic), Direction::NORTH, kitchen, attic);
+	exitKitchenAttic->SetLocked(true);
 	Exit* exitAtticKitchen = new Exit("stairs", ExitDescription(kitchen), Direction::SOUTH, attic, kitchen);
 
 	// ITEMS
@@ -62,13 +62,13 @@ World::World(string playerName)
 	kitchen->Add(exitkitchenBh);
 	kitchen->Add(exitKitchenAttic);
 	kitchen->Add(exitKitchenLivingRoom);
-	kitchen->Add(key);
 
 	// ADD Entries to Attic
 	attic->Add(exitAtticKitchen);
 	attic->Add(Surt);
 
 	// AD Entries to Living Room
+	livingRoom->Add(key);
 	livingRoom->Add(exitBhKitchen);
 	livingRoom->Add(Hugin);
 
@@ -96,6 +96,7 @@ World::World(string playerName)
 	entities.push_back(key);
 	entities.push_back(sword);
 	entities.push_back(shield);
+	entities.push_back(backpack);
 
 	entities.push_back(Hugin);
 	entities.push_back(Surt);
@@ -116,6 +117,9 @@ void World::ExecuteInput(const vector<string>& words)
 		actionParameter = words.at(1);
 	}
 
+	if (ACTION_ATTACK == actionName || ACTION_TALK == actionName) {
+		actionParameter[0] = toupper(actionParameter[0]);
+	}
 	if (ACTION_GO == actionName) {
 		player->Go(actionParameter);
 	}
