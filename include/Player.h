@@ -12,7 +12,8 @@ class Player :
 {
     public:
 		Player(string name, string description, Room* location) : Creature(EntityType::PLAYER, name, description, location) {
-			this->holdingItem = nullptr;
+			this->holdingRightItem = nullptr;
+			this->holdingLeftItem = nullptr;
 		}
 
         // PLAYER ACTIONS
@@ -23,17 +24,15 @@ class Player :
 		void Equip(const string& str);
 		void Unequip(const string& str);
 		void Drop(const string& str);
-
-
-		void Inspect(const string& str);
 		void Unlock(const string& str);
-		void Loot(const string& str);
-
+		void Inspect(const string& str);
 
 		void Inventory();
 		void DescribeCurrentRoom();
 
-		Item* GetHoldingItem() const;
+		Item* GetHoldingRightItem() const;
+		Item* GetHoldingLeftItem() const;
+
 		void SetHoldingItem(Item* item);
 
 	private:
@@ -47,7 +46,8 @@ class Player :
 
 		Item* GetItemFromType(ItemType type) const;
 			
-		Item* holdingItem;
+		Item* holdingRightItem;
+		Item* holdingLeftItem;
 };
 
 

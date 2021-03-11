@@ -32,6 +32,11 @@ using namespace std;
 
 #define ACTION_HELP "help"
 
+#define ACTION_UNLOCK "unlock"
+
+#define ACTION_INSPECT "inspect" 
+
+
 #define ACTION_INVENTORY "inventory"
 
 

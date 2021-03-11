@@ -19,6 +19,7 @@ World::World(string playerName)
 
 	Exit* exitBhKitchen = new Exit("window", ExitDescription(kitchen), Direction::WEST, bh, kitchen);
 	Exit* exitkitchenBh = new Exit("path", ExitDescription(bh), Direction::EAST, kitchen, bh);
+	exitkitchenBh->SetLocked(true);
 
 	Exit* exitLivingRoomKitchen = new Exit("door", ExitDescription(kitchen), Direction::EAST, livingRoom, kitchen);
 	Exit* exitKitchenLivingRoom = new Exit("door", ExitDescription(livingRoom), Direction::WEST, kitchen, livingRoom);
@@ -28,7 +29,9 @@ World::World(string playerName)
 	// ITEMS
 	Item* key = new Item("key", "Maybe it can open something.", ItemType::KEY);
 	Item* sword = new Item("sword", "A nordic sword used to kill monsters.", ItemType::WEAPON);
-	Item* shield = new Item("shield", "I think this is not and shield, just a peace of wood", ItemType::WEAPON);
+	Item* shield = new Item("shield", "I think this is not and shield, just a peace of wood but, maybe can works!", ItemType::SHIELD);
+	Item* backpack = new Item("backpack", "A backpack, nice!, know I can save objects, I guess...", ItemType::HOLDER);
+
 
 	// NPCS
 	class Npc* Hugin = new class Npc("Hugin", "A crow!", "GO ATTIC!!, GO ATTIC!!", livingRoom);
@@ -48,6 +51,7 @@ World::World(string playerName)
 
 	nh->Add(exitNhWh);
 	nh->Add(exitNhBh);
+	nh->Add(backpack);
 	nh->Add(sword);
 
 	// ADD Entries to BH
@@ -135,6 +139,15 @@ void World::ExecuteInput(const vector<string>& words)
 	}
 	else if (ACTION_UNEQUIP == actionName) {
 		player->Unequip(actionParameter);
+	} 
+	else if (ACTION_INSPECT == actionName) {
+		player->Inspect(actionParameter);
+	}
+	else if (ACTION_UNLOCK == actionName) {
+		player->Unlock(actionParameter);
+	} 
+	else if (ACTION_INVENTORY == actionName) {
+		player->Inventory();
 	}
 	else
 		cerr << "Invalid action, please try again." << endl;
@@ -150,6 +163,9 @@ void World::ShowHelp() const
 	cout << ShowCommand(ACTION_DROP) << " drop the item from your inventory and place it in the current room." << endl;
 	cout << ShowCommand(ACTION_EQUIP) << " hold that item in your hand to use it." << endl;
 	cout << ShowCommand(ACTION_UNEQUIP) << " unhold that item from your hand." << endl;
+	cout << ShowCommand(ACTION_INSPECT) << " describe the object you specify." << endl;
+	cout << ShowCommand(ACTION_UNLOCK) << " opens an exit. You will need a key. The parameter must be a direction." << endl;
+	cout << ShowCommand(ACTION_INVENTORY) << " shows all the items you have." << endl;
 }
 
 string World::ShowCommand(string str) const {

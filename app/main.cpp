@@ -1,13 +1,17 @@
 #include <iostream>
 #include "../include/World.h"
 
+#define WHITE_ "\033[1;36m"
+#define _WHITE "\033[0m"
+
 using namespace std;
 
 int main() {
 
     string userInput;
 
-    cout << "Welcome to Zork!" << endl;
+    cout << WHITE_ "Welcome to MyZork!\n" _WHITE;
+    cout << "----------------\n";
 
     cout << "What's your name? ";
     getline(cin, userInput);
