@@ -4,6 +4,7 @@
 #include "Creature.h"
 #include "Npc.h"
 #include "Exit.h"
+#include "Globals.h"
 
 class Player :
     public Creature
@@ -14,9 +15,9 @@ class Player :
         }
 
         // PLAYER ACTIONS
+		void Go(const string& str);
 		void Talk(const string& str);
 		bool Attack(const string& str);
-		void Go(const string& str);
 		void Inspect(const string& str);
 		void Take(const string& str);
 		void Equip(const string& str);
@@ -26,6 +27,14 @@ class Player :
 		void Loot(const string& str);
 
 		void DescribeCurrentRoom();
+
+	private:
+
+		Exit* GetExitFromDirection(const string& str) const;
+		Exit* GetExitFromDirection(const Direction& dir) const;
+
+		template <class T>
+		T* GetEntityFromName(const string& name, const list<Entity*>& entities, const EntityType type) const;
 };
 
 
