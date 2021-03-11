@@ -137,18 +137,85 @@ void Player::Inspect(const string& str)
 
 void Player::Take(const string& str)
 {
+	Item* item = GetEntityFromName<Item>(str, location->contains, EntityType::ITEM);
+
+	if (item == nullptr) {
+		cout << "You can't take " << str << "." << endl;
+	}
+	else {
+		contains.push_back(item);
+		location->contains.remove(item);
+		cout << "You now have a " << str << "." << endl;
+	}
 }
 
 void Player::Equip(const string& str)
 {
+	Item* item = GetEntityFromName<Item>(str, contains, EntityType::ITEM);
+
+	if (item == nullptr) {
+		cout << "You can't equip a " << str << "." << endl;
+	}
+	else {
+		if (GetHoldingItem() != nullptr)
+			cout << "Switched " << GetHoldingItem()->GetName() << " for " << item->GetName() << "." << endl;
+		SetHoldingItem(item);
+		cout << "Equipped a " << item->GetName() << "." << endl;
+	}
 }
 
 void Player::Drop(const string& str)
 {
+	Item* item = GetEntityFromName<Item>(str, contains, EntityType::ITEM);
+
+	if (item == nullptr) {
+		cout << "You can't drop a " << str << "." << endl;
+	}
+	else {
+		// Check if equipped
+		if (GetHoldingItem() == item) {
+			cout << "Unequiping..." << endl;
+			Unequip(str);
+		}
+
+		// Check for parent
+		Entity* parent = item->GetParent();
+		if (parent != nullptr) {
+			parent->Remove(item);
+			item->SetParent(nullptr);
+		}
+
+		// Check if childs
+		for (Entity* child : item->contains) {
+			contains.remove(child);
+			location->contains.push_back(child);
+			cout << "You dropped a " << child->GetName() << "." << endl;
+		}
+
+		item->contains.clear();
+		contains.remove(item);
+		location->contains.push_back(item);
+		cout << "You dropped a " << str << "." << endl;
+	}
+
 }
 
 void Player::Unequip(const string& str)
 {
+	Item* item = GetEntityFromName<Item>(str, contains, EntityType::ITEM);
+
+	if (item == nullptr) {
+		cout << "You can't unequip a " << str << "." << endl;
+	}
+	else {
+		if (GetHoldingItem() == item) {
+			cout << "Unequipped a " << item->GetName() << "." << endl;
+			SetHoldingItem(nullptr);
+		}
+		else {
+			cout << "You are not holding a " << item->GetName() << "." << endl;
+		}
+	}
 }
 
 void Player::Unlock(const string& str)
@@ -156,6 +223,10 @@ void Player::Unlock(const string& str)
 }
 
 void Player::Loot(const string& str)
+{
+}
+
+void Player::Inventory()
 {
 }
 

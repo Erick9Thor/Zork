@@ -16,13 +16,25 @@ using namespace std;
 
 #define ACTION_GO "go"
 
+#define ACTION_TALK "talk" 
+
 #define ACTION_ATTACK "attack"
 
-#define ACTION_TALK "talk" 
+#define ACTION_TAKE "take"
+
+#define ACTION_EQUIP "equip"
+
+#define ACTION_UNEQUIP "unequip"
+
+#define ACTION_DROP "drop"
 
 #define ACTION_EXIT "exit"
 
 #define ACTION_HELP "help"
+
+#define ACTION_INVENTORY "inventory"
+
+
 
 class World
 {

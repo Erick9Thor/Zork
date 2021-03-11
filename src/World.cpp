@@ -34,7 +34,7 @@ World::World(string playerName)
 	class Npc* Hugin = new class Npc("Hugin", "A crow!", "GO ATTIC!!, GO ATTIC!!", livingRoom);
 	
 	// MONSTER
-	class Npc* Surt = new class Npc("Surt", "OMG. The king of the fire giants", "He wants to start the Ragnarock!", attic);
+	class Npc* Surt = new class Npc("Surt", "OMG. The king of the fire giants", "Who are you!?", attic);
 
 	// PLAYER
 	player = new Player(playerName, "You are the mighty hero of this adventure!", wh);
@@ -124,6 +124,18 @@ void World::ExecuteInput(const vector<string>& words)
 	else if (ACTION_HELP == actionName) {
 		ShowHelp();
 	}
+	else if (ACTION_TAKE == actionName) {
+		player->Take(actionParameter);
+	}
+	else if (ACTION_DROP == actionName) {
+		player->Drop(actionParameter);
+	}
+	else if (ACTION_EQUIP == actionName) {
+		player->Equip(actionParameter);
+	}
+	else if (ACTION_UNEQUIP == actionName) {
+		player->Unequip(actionParameter);
+	}
 	else
 		cerr << "Invalid action, please try again." << endl;
 }
@@ -135,6 +147,9 @@ void World::ShowHelp() const
 	cout << ShowCommand(ACTION_ATTACK) << " attack a monster in the current room. You will need a weapon" << endl;
 	cout << ShowCommand(ACTION_TALK) << " chat with an NPC." << endl;
 	cout << ShowCommand(ACTION_EXIT) << " end the game." << endl;
+	cout << ShowCommand(ACTION_DROP) << " drop the item from your inventory and place it in the current room." << endl;
+	cout << ShowCommand(ACTION_EQUIP) << " hold that item in your hand to use it." << endl;
+	cout << ShowCommand(ACTION_UNEQUIP) << " unhold that item from your hand." << endl;
 }
 
 string World::ShowCommand(string str) const {
